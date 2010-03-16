@@ -1,0 +1,26 @@
+#show
+  -if @p
+    .proj
+      .icon
+        -if @p.icon 
+          %img{:src=>@p.icon}
+      .details
+        %h1.name= @p.name
+        %span#edit= link("edit","/edit/#{@p.id}")
+        %span.summary= @p.summary
+    
+    - if @p.description
+      #description.attribute
+        .heading Description:
+        .proj-body= markdown @p.description
+    - if @p.homepage
+      #homepage.attribute
+        %span.heading Homepage URL:
+        = url @p.homepage
+  
+  -else
+    %h1 Oops!
+    %p 
+      :markdown
+        Seems like there aren't any projects matching _`#{h params[:proj_name]}`_.
+        Maybe try [exploring](/all) some of our popular projects.

@@ -1,0 +1,28 @@
+!!!
+%html{:lang => 'en'}
+  %head
+    %meta{'http-equiv'=>"content-type", :content => 'text/html; charset=utf-8'}
+    %title 
+      Projects@
+      = "&laquo; " + @title if @title
+    %link{:rel=>'stylesheet', :href=>'/main.css', :type=>'text/css'}
+  %body
+    #container
+      #header
+        %a{:href=>'/'}
+          %img#logo{:src => '/img/logo.png'}
+        %form#search{:action=>'/search', :method=>'get'}
+          %p
+            %input{:type => 'search', :name => 'q', :results => 5, :placeholder => 'Search projects...', :autocomplete=>'off'}
+      #content-container
+        #left-nav
+          #links
+            %a.link{:href=>"/add"} Add a project
+            %a.link{:href=>"/all"} Explore
+          .tag-list
+            %h3 popular tags:
+            = tag_list()
+        #content
+          = yield
+      #footer
+        == &copy; #{Time.now.year} Bryan Summersett. Source available on #{link 'Github', 'http://github.com'}.

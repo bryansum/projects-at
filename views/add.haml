@@ -1,0 +1,51 @@
+%h1= @is_add ? "Add a new project" : "Edit project <code>#{@p.name}</code>"
+
+%form#add(method='post' enctype="multipart/form-data")
+  %label(for='name') 
+    Name:
+    %sup *
+  %input#name(type='text' name='name'){:value=>@p.name}
+  %p.description The official title of the app (e.g., iPong)
+
+  %label(for='summary')
+    Summary:
+    %sup *
+  %input#summary(type='text' name='summary' style='width: 300px;'){:value=>@p.summary}
+  %p.description 
+    Single-sentence description of your project (e.g., a multiplayer ping pong 
+    game for the iPhone)
+
+  %label(for='tags') 
+    Tags:
+    %sup *
+  %input#tags(type='text' name='tags' style='width: 300px'){:value=>tag_list(@p)}
+  %p.description 
+    Single-word descriptions of your project. Try to use hyphens instead of spaces.
+  #tag-bucket
+    
+  %label(for='description') Description:
+  %textarea(name='description' rows=8 cols=50)= @p.description || "#Hello world"
+  %p.description 
+    Any details about the project. Uses 
+    = link 'Markdown', "http://daringfireball.net/projects/markdown/"
+    syntax to render. No HTML allowed. 
+    
+  %label(for='homepage') Homepage URL:
+  %input#homepage(type='text' name='homepage' style='width:300px'){:value=>@p.homepage}
+  %p.description URL of the project's home page, if one exists
+
+  %label(for='icon') Icon:
+  %input#icon(type='file' name='icon_img')
+  %p.description Optional 60x60 icon for your application. PNG format preferred.
+
+  %label(for='secret_password')
+    Secret password:
+    %sup *
+  %input#secret_password(type='password' name='secret_password')
+  %p.description 
+    In order to add/edit a new project on Projects@, you must provide the secret 
+    == administrative password (for now). Or ask #{link 'Bryan', 'mailto:bsummersett@gmail.com'}
+    for more information. You need to be a student/alumni of UofM at this point in time.
+  
+  %p
+    %input.submit(type='submit'){:value=>(@is_add ? "Add project" : "Edit project")}

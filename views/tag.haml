@@ -1,0 +1,20 @@
+- if @projs.nil? or @projs.empty?
+  %h1== 0 projects matching '#{h params[:tag]}'
+  :markdown
+    Seems like there aren't any projects matching '#{params[:tag]}'.
+    Maybe try [exploring](/all) popular projects.
+  
+- else
+  %h1 
+    == #{@projs.size} #{pluralize 'project', @projs} matching
+    %code&= params[:tag]
+    = ":"
+    
+  %ul#proj-listing
+    - for proj in @projs
+      %li.proj
+        .icon
+          %img{:src=>proj.icon || "http://dummyimage.com/60x60/000/fff"}
+        .details
+          %h2.name= proj_link(proj)
+          %span.summary= proj.summary
