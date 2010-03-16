@@ -5,9 +5,10 @@
         -if @p.icon 
           %img{:src=>@p.icon}
       .details
-        %h1.name= @p.name
+        %h1.name&= @p.name
         %span#edit= link("edit","/edit/#{@p.id}")
-        %span.summary= @p.summary
+        %span.summary&= @p.summary
+        %span.authors&= @p.pp_authors if @p.authors
     
     - if @p.description
       #description.attribute

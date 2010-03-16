@@ -1,5 +1,5 @@
 %h1= @is_add ? "Add a new project" : "Edit project <code>#{@p.name}</code>"
-
+%p.error= env['sinatra.error'] if env['sinatra.error']
 %form#add(method='post' enctype="multipart/form-data")
   %label(for='name') 
     Name:
@@ -18,10 +18,10 @@
   %label(for='tags') 
     Tags:
     %sup *
-  %input#tags(type='text' name='tags' style='width: 300px'){:value=>tag_list(@p)}
-  %p.description 
-    Single-word descriptions of your project. Try to use hyphens instead of spaces.
+  %input#tags(type='text' name='tags' style='width: 300px'){:value=>tags_for(@p,:no_link=>true)}
   #tag-bucket
+  %p.description 
+    Single-word descriptions of your project. Please use hyphens instead of spaces.
     
   %label(for='description') Description:
   %textarea(name='description' rows=8 cols=50)= @p.description || "#Hello world"

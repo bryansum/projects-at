@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby -KU
 
-%w(rubygems sinatra erb rack rdiscount haml sass).each {|l| require l }
+%w(rubygems sinatra erb rack rdiscount haml sass json).each {|l| require l }
 
 # local requires
 require 'config'
@@ -13,8 +13,8 @@ get '/main.css' do
 end
 
 # viewing
-get '/tag/:tag' do
-  @projs = Project.find_all_by_tags(params[:tag])
+get '/tag/:q' do
+  @projs = Project.find_all_by_tags(params[:q])
   haml :tag
 end
 
@@ -35,10 +35,13 @@ end
 get '/add' do
   @is_add = true
   @p = Project.new
+  @title = "Add a project"
   haml :add
 end
 
 post '/add' do
+  params[:tags] = params[:tags].split if params[:tags]
+
   @p = Project.new(params)
   @is_add = true
   if is_secret? params[:secret_password] and @p.save
@@ -56,13 +59,34 @@ get "/edit/:id" do
 end
 
 post "/edit/:id" do
+  params[:tags] = params[:tags].split if params[:tags]
   @p = Project.find(params[:id])
   @is_add = false
-  if is_secret? params[:secret_password] and @p.update_attributes!(params)
+  if is_secret? params[:secret_password] and @p.update_attributes(params)
     redirect "/proj/#{@p.name}"
   else
     haml :add
   end
+end
+
+get "/tags/complete/:str" do
+  content_type 'application/json', :charset=>'utf-8'
+  JSON::generate(Project.similar_tags params[:str])
+end
+
+get "/tags/popular" do
+  JSON::generate(popular_tags :limit => 5)
+end
+
+%w{/all /explore}.each do |path|
+  get path do
+    haml :explore
+  end
+end
+
+get '/search' do
+  @projs = Project.search params[:q]
+  haml :tag
 end
 
 get '/' do

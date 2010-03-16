@@ -1,21 +1,35 @@
 
 #add
+  #tag-bucket
+    +float-and-clear
+    
+    a
+      color = !light
+      font-size: 80%
+      cursor: pointer
+      border = 1px solid !light
+      padding: 2px
+      margin-right: 4px
+      &:hover
+        border: 1px solid white
+        color: white
+        background-color = !light
+
   sup
     color: red
     font-size: 60%
     vertical-align: super
   textarea
-    float: left
+    +float
     font-size: 90%
 
   label, input
+    +float
     margin-top: 1em
-    float: left
 
   p.description
     +summary-text
-    float: left
-    clear: left
+    +float-and-clear
 
   label
     font-weight: bold

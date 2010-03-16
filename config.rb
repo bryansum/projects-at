@@ -40,10 +40,18 @@ helpers do
     "<a class=\"tag\" href=\"#{url}\">#{name}</a>"
   end
   
-  def tag_list(prj=Project.all, opts={})
+  def tag_list(arr, opts={})
+    arr.reduce("") {|str, t| str += (opts[:no_link] ? t : link(t,'/tag/'+t)) + " " }[0..-2] 
+  end
+  
+  def tags_for(prj=Project.all,opts={})
     # turn to comma-separated list
     tags = [prj].flatten.each_with_object(Set.new) {|p, set| p.tags.each {|t| set << t } }
-    tags.reduce("") {|str, t| str += (opts[:no_link] ? t : link(t,'/tag/'+t)) + ", " }[0..-3] 
+    tag_list tags, opts
+  end
+  
+  def popular_tags(opts={})
+    Project.popular_tags(opts).reduce([]){|a,i| a << i[0] }
   end
   
   def markdown(str)
