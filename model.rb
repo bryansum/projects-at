@@ -6,11 +6,6 @@ require 'dm-aggregates'
 require 'dm-timestamps'
 require 'dm-ar-finders'
 
-configure :development do
-  use Rack::Reloader
-end if configure
-
-DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default,ENV['DATABASE_URL']||"sqlite3://#{Dir.pwd}/my.db")
 
 module Stemmer
