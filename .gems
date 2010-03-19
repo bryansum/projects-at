@@ -2,9 +2,11 @@ sinatra --version '>= 0.9.6'
 rack --version '>= 1.1.0'
 rdiscount
 haml
-dm-core
-dm-aggregates
-dm-timestamps
-dm-ar-finders
+data_objects '>= 0.10.1'
+dm-core --version '>= 0.10.2'
+dm-aggregates --version '>= 0.10.2'
+dm-timestamps --version '>= 0.10.2'
+dm-ar-finders --version '>= 0.10.2'
+do_postgres --version '>= 0.10.1'
 ruby-stemmer
 
