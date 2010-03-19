@@ -23,7 +23,7 @@ function autocomplete() {
   }
   
   function replace_words() {
-    var tags = el_tags(), o = tags.slice(0,-1), str = o.length ? o.join(" ")+" " : "", word = suggest[s_i];
+    var tags = el_tags(), o = tags.slice(0,-1), str = o.length ? o.join(" ")+" " : "", word = suggest[s_i]['tag'];
     if (find(word, tags) == -1) ele.val(str+word);
   }
   

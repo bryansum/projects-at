@@ -6,7 +6,9 @@ require 'dm-aggregates'
 require 'dm-timestamps'
 require 'dm-ar-finders'
 
-DataMapper.setup(:default,ENV['DATABASE_URL']||"postgres://localhost/dm")
+# DataMapper::Logger.new($stdout, :debug)
+DataMapper.setup(:default,ENV['DATABASE_URL']||"sqlite3://#{Dir.pwd}/my.db")
+# DataMapper.setup(:default,ENV['DATABASE_URL']||"postgres://localhost/dm")
 
 module Stemmer
   require 'lingua/stemmer'
@@ -69,8 +71,6 @@ class Project
   has n, :tags, :through => Resource # anon. join
   has n, :keywords, :through => Resource
   
-  before :save, :index_keywords
-
   def self.with_keyword(kw)
     kw = Keyword.first :keyword=>Stemmer::keywordize(kw)
     kw.projects if kw
@@ -92,7 +92,8 @@ class Project
       :description => p[:description],
       :homepage => p[:homepage],
       :tags => conv_tag_str(p[:tags]),
-      :authors => p[:authors]
+      :authors => p[:authors],
+      :keywords => index_keywords(p)
     }
   end
 
@@ -102,8 +103,8 @@ private
     str ? str.split.map{|t| Tag.find_or_create :tag => t } : []
   end
 
-  def index_keywords
-    self.keywords = Stemmer::extract_keywords([name,summary,description].join(" "))
+  def index_keywords(p)
+    Stemmer::extract_keywords([p[:name],p[:summary],p[:description]].join(" "))
     .map {|kw| Keyword.find_or_create :keyword => kw }
   end
 

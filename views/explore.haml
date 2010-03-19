@@ -1,1 +1,12 @@
 %h1 Explore projects
+
+%ul#proj-listing
+  - for proj in @projs
+    %li.proj
+      .icon
+        %a{:href=>"/proj/"+URI::escape(proj.name)}
+          %img{:src=>proj.icon || "http://dummyimage.com/60x60/000/fff"}
+      .details
+        %h2.name= proj_link(proj)
+        %span.summary&= proj.summary
+        %span.authors&= proj.authors

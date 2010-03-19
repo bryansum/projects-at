@@ -18,7 +18,7 @@
         #left-nav
           #links
             %a.link{:href=>"/add"} Add a project
-            %a.link{:href=>"/all"} Explore
+            %a.link{:href=>"/explore"} Explore
           .proj-list
             
           .side
@@ -30,7 +30,7 @@
         #content
           = yield
       #footer
-        == &copy; #{Time.now.year} Bryan Summersett. Source available on #{link 'Github', 'http://github.com'}.
+        == &copy; #{Time.now.year} Bryan Summersett. Source available on #{link 'Github', 'http://github.com/bryansum/projects-at'}.
   %script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type='text/javascript' charset='utf-8')
   %script(src='/main.js' type='text/javascript' charset='utf-8')
 

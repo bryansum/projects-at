@@ -88,6 +88,7 @@ end
 
 %w{/all /explore}.each do |path|
   get path do
+    @projs = Project.all
     haml :explore
   end
 end
