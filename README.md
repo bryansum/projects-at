@@ -5,10 +5,15 @@
 * Add icon / image uploading support
 
 ## Installation
+
+This is a (Sinatra app)[http://www.sinatrarb.com/], which is incidentally a pretty
+cool little web framework. It might be helpful to install the (Thin)[http://code.macournoyer.com/thin/]
+webserver. 
+
 Currently the following gem dependencies are located in the .gems file. You can
 install them from scratch by using the command:
 
-    cat .gems | xargs gem install
+    cat .gems | xargs sudo gem install
   
 ## License
 MIT-licensed
