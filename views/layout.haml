@@ -19,9 +19,14 @@
           #links
             %a.link{:href=>"/add"} Add a project
             %a.link{:href=>"/all"} Explore
-          .tag-list
+          .proj-list
+            
+          .side
             %h3 popular tags:
-            = tag_list(popular_tags())
+            = tag_list(Tag.popular)
+            %h3 popular projects:
+            - for p in Project.popular
+              = proj_link(p)
         #content
           = yield
       #footer

@@ -8,7 +8,7 @@
         %h1.name&= @p.name
         %span#edit= link("edit","/edit/#{@p.id}")
         %span.summary&= @p.summary
-        %span.authors&= @p.pp_authors if @p.authors
+        %span.authors&= @p.authors
     
     - if @p.description
       #description.attribute

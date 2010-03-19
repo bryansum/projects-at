@@ -14,19 +14,27 @@ end
 
 # viewing
 get '/tag/:q' do
-  @projs = Project.find_all_by_tags(params[:q])
+  tag = Tag.first(:tag => params[:q])
+  @projs = tag.projects if tag
   haml :tag
 end
 
 # find by project id 
 get %r{/proj/([\dabcdef]{24})} do
-  @p = Project.find(params[:captures].first)
+  @p = Project.first(:name=>params[:captures].first)
+  if @p
+    @p.points += 1
+    @p.save
+  end
   haml :show
 end
 
 get '/proj/:proj_name' do
-  @p = Project.find_by_name(params[:proj_name])
-  @p.homepage = "http://github.com"
+  @p = Project.first(:name=>params[:proj_name])
+  if @p
+    @p.points += 1
+    @p.save # add to this project's point score
+  end
   @title = @p.name
   haml :show
 end
@@ -40,9 +48,8 @@ get '/add' do
 end
 
 post '/add' do
-  params[:tags] = params[:tags].split if params[:tags]
+  @p = Project.make(params)
 
-  @p = Project.new(params)
   @is_add = true
   if is_secret? params[:secret_password] and @p.save
     redirect "/proj/#{@p.name}"
@@ -59,23 +66,24 @@ get "/edit/:id" do
 end
 
 post "/edit/:id" do
-  params[:tags] = params[:tags].split if params[:tags]
   @p = Project.find(params[:id])
-  @is_add = false
-  if is_secret? params[:secret_password] and @p.update_attributes(params)
+  @p.make(params) if @p
+
+  if @p and is_secret? params[:secret_password] and @p.save
     redirect "/proj/#{@p.name}"
   else
+    @is_add = false
     haml :add
   end
 end
 
 get "/tags/complete/:str" do
   content_type 'application/json', :charset=>'utf-8'
-  JSON::generate(Project.similar_tags params[:str])
+  JSON::generate(Tag.all(:tag.like => "#{params[:str]}%").map(&:to_json))
 end
 
 get "/tags/popular" do
-  JSON::generate(popular_tags :limit => 5)
+  JSON::generate Tag.popular(5).map(&:to_json)
 end
 
 %w{/all /explore}.each do |path|
@@ -85,7 +93,7 @@ end
 end
 
 get '/search' do
-  @projs = Project.search params[:q]
+  @projs = Project.with_keyword params[:q]
   haml :tag
 end
 

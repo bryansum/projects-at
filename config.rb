@@ -11,7 +11,7 @@ helpers do
   
   def is_secret?(pass)
     require 'digest/md5'
-    "20201771b936977285f58a860ea75617" == Digest::MD5.hexdigest(pass)
+    "773e0611e1b23b0dce69e7896d52ab9f" == Digest::MD5.hexdigest(pass)
   end
 
   def url(url)
@@ -36,22 +36,18 @@ helpers do
   end
 
   def link(name, url)
-    name ||= url
+    "<a href=\"#{url}\">#{name}</a>"
+  end
+
+  def tag_link(name, url)
     "<a class=\"tag\" href=\"#{url}\">#{name}</a>"
   end
   
-  def tag_list(arr, opts={})
-    arr.reduce("") {|str, t| str += (opts[:no_link] ? t : link(t,'/tag/'+t)) + " " }[0..-2] 
-  end
-  
-  def tags_for(prj=Project.all,opts={})
-    # turn to comma-separated list
-    tags = [prj].flatten.each_with_object(Set.new) {|p, set| p.tags.each {|t| set << t } }
-    tag_list tags, opts
-  end
-  
-  def popular_tags(opts={})
-    Project.popular_tags(opts).reduce([]){|a,i| a << i[0] }
+  def tag_list(arr, do_link=true)
+    arr.reduce("") do |str, tag| 
+      t = tag.tag; 
+      str += (do_link ? tag_link(t,'/tag/'+t) : t) + " " 
+    end[0..-2] 
   end
   
   def markdown(str)

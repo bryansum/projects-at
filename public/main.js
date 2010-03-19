@@ -8,17 +8,15 @@ function autocomplete() {
   function el_tags() { return ele.val().split(/\s+/); }
   
   function add_tag(str) {
-    var tags = el_tags();
-    if (find(str, tags) == -1) {
+    if (find(str, el_tags()) == -1) {
       ele.val(ele.val()+" "+str);
     } 
   } 
   
   function fill_bucket(str) {
-    str = str || "";
-    bucket.html(str+" ");
+    bucket.html(str||""+" ");
     for (var i = suggest.length - 1; i >= 0; i--){
-      bucket.append($('<a class="tag">'+suggest[i]+'</a> ').click(function(){
+      bucket.append($('<a class="tag">'+suggest[i]['tag']+'</a> ').click(function(){
         add_tag($(this).text());
       }));
     };
@@ -34,7 +32,6 @@ function autocomplete() {
     if (e.which == 9 || e.which == 8) return;
     var tags = el_tags(), last = tags.slice(-1)[0];
     if (last) {
-      console.log('logged')
       t_id = setTimeout(function(){
         $.getJSON("/tags/complete/"+last,function(ts){
           suggest = ts; s_i = 0;

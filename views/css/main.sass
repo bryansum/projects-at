@@ -44,6 +44,8 @@ body
   font-family: 'myriad pro', corbel, 'lucida grande', helvetica, sans-serif
   color = !normal
   background-color: #fff
+  background: url(/img/graybg.png) top left repeat-y
+    
 
 pre, code, textarea
   +code
@@ -92,6 +94,13 @@ div.error
       float: left
       width: 190px
       
+      .proj-link
+        color: !light
+        margin-right: 3px
+        font-size: 90%
+        &:visited
+          color: !light
+      
       #links 
         .link
           font-size: 180%
@@ -101,13 +110,11 @@ div.error
           &:visited
             color = !light
     
-      .tag-list
-        color = !light
-        font-size: 0.8em
-
-      h3
-        font-weight: bold
-        margin-bottom: 0
+      .side
+        h3
+          color = !light
+          font-weight: bold
+          margin-bottom: 0
 
     #content
       //  border: 1px solid blue
@@ -124,10 +131,10 @@ div.error
     text-align: center
     clear: both
     color: #999
+
 .proj-link
   color: inherit
   text-decoration: none
-  
   &:visited
     color: inherit
 
@@ -143,8 +150,9 @@ div.error
     margin-right: 1em
     margin-bottom: 0.4em
     img
-      +rounded("10px")
-      +shadow
+      +rounded(10px)
+      +shadow  
+    
 
   .details
     +float    
@@ -157,6 +165,21 @@ div.error
     .authors
       font-size: 60%
       font-style: italic
+
+.tag
+  white-space: nowrap
+  color = !light
+  font-size: 80%
+  cursor: pointer
+  border = 1px "solid" !light
+  padding: 2px
+  margin-right: 4px
+  text-decoration: none
+  background-color: white
+  &:hover
+    border: 1px solid white
+    color: white
+    background-color = !light
 
 
 // imports

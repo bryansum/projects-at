@@ -3,7 +3,7 @@
     0 projects matching
     %code&= params[:q]
   :markdown
-    Seems like there aren't any projects matching `#{params[:q]}`.
+    Seems like there aren't any projects matching `#{h params[:q]}`.
     Maybe try [exploring](/all) popular projects.
   
 - else
@@ -20,5 +20,5 @@
             %img{:src=>proj.icon || "http://dummyimage.com/60x60/000/fff"}
         .details
           %h2.name= proj_link(proj)
-          %span.summary= proj.summary
-          %span.authors= h(proj.pp_authors) if proj.authors
+          %span.summary&= proj.summary
+          %span.authors&= proj.authors
