@@ -6,7 +6,7 @@ require 'dm-aggregates'
 require 'dm-timestamps'
 require 'dm-ar-finders'
 
-DataMapper.setup(:default,ENV['DATABASE_URL']||"sqlite3://#{Dir.pwd}/my.db")
+DataMapper.setup(:default,ENV['DATABASE_URL']||"postgres://localhost/dm")
 
 module Stemmer
   require 'lingua/stemmer'
@@ -46,8 +46,8 @@ class Tag
   end
   
   def self.popular(limit=10)
-    repository.adapter.select("SELECT t.id, t.tag, COUNT(*) as 'num' FROM tags t JOIN 
-    project_tags pt on pt.tag_id = t.id GROUP BY t.id ORDER BY num DESC LIMIT ?",
+    repository.adapter.select("SELECT t.id, t.tag, COUNT(*) as num FROM tags t JOIN 
+    project_tags pt on pt.tag_id = t.id GROUP BY t.id, t.tag ORDER BY num DESC LIMIT ?",
     [limit]).map{|a| Tag.new(:id=>a[0],:tag=>a[1]) }
   end
 end
