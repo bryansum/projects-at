@@ -1,0 +1,15 @@
+# config files
+ssh:
+  user: bryansum
+  host: www.eecs.umich.edu
+  www_root: /w/projects-at
+
+eecs:
+  db:
+    adapter: mysql
+    host: localhost
+    user: projects_at
+    database: projects_at
+    
+  gem_home: /w/projects-at/.gem
+  gem_path: /w/projects-at/.gem

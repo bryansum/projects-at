@@ -18,6 +18,9 @@ install them from scratch by using the command:
 Alternatively, you can install them to the root/.gem directory by calling the command
 
     script/unpack
+    
+Then, you need to move a `config.yaml.template` to `config.yaml` and add a password
+to the db parameters.
   
 ## License
 MIT-licensed
