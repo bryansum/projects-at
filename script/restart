@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+load File.dirname(__FILE__)+'/settings.rb'
+
+# passenger uses restart.txt to restart
+tmp_dir = $config['ssh']['www_root']+"/tmp"
+
+cmd = "mkdir -p #{tmp_dir} && touch #{tmp_dir}/restart.txt"
+if `hostname`.chomp == 'www'
+  system cmd
+else
+  system "ssh #{$config['ssh']['user']}@#{$config['ssh']['host']} \"#{cmd}\""
+end

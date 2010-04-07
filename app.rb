@@ -83,6 +83,7 @@ get "/tags/complete/:str" do
 end
 
 get "/tags/popular" do
+  content_type 'application/json', :charset=>'utf-8'
   JSON::generate Tag.popular(5).map(&:to_json)
 end
 

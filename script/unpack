@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+load File.dirname(__FILE__)+'/settings.rb'
+root = File.dirname(__FILE__)+"/.."
+
+gem_dir = $config['eecs']['gem_path']
+gems_file = root+"/.gems"
+ENV['GEM_HOME']=ENV['GEM_PATH']=gem_dir
+
+cmd = "mkdir -p #{gem_dir} && chmod 777 #{gem_dir}; "
+
+File.read(gems_file).chomp.each_line do |line|
+  line.chomp!
+  cmd += "gem install -i #{gem_dir} #{line}; "
+end
+
+if `hostname`.chomp == 'www'
+  system cmd
+else
+  system "ssh #{$config['ssh']['user']}@#{$config['ssh']['host']} \"#{cmd}\""
+end

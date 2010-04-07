@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+load File.dirname(__FILE__)+'/settings.rb'
+root = File.dirname(__FILE__)+"/../"
+
+# Uploads all data to the server
+system "rsync -aCuvz --exclude-from=#{root}/.gitignore #{root} #{$config['ssh']['user']}@#{$config['ssh']['host']}:#{$config['ssh']['www_root']}"
+
+system "ssh #{$config['ssh']['user']}@#{$config['ssh']['host']} \"cp -f #{$config['ssh']['www_root']}/config/eecs.config.ru #{$config['ssh']['www_root']}/config.ru; \
+  #{$config['ssh']['www_root']}/script/restart\""

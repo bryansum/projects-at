@@ -1,9 +1,8 @@
 #show
   -if @p
     .proj
-      .icon
-        -if @p.icon 
-          %img{:src=>@p.icon}
+      - if @p.icon
+        %a.icon{:href=>"/proj/"+URI::escape(@p.name),:style=>"background:url('#{@p.icon}')"}
       .details
         %h1.name&= @p.name
         %span#edit= link("edit","/edit/#{@p.id}")

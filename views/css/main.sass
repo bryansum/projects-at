@@ -145,16 +145,18 @@ div.error
 
   .icon
     +float
+    display: block
     width = !icon_dim
     height = !icon_dim
     margin-right: 1em
     margin-bottom: 0.4em
-    img
-      +rounded(10px)
-      +shadow  
+    overflow: hidden
+    +rounded(10px)
+    +shadow(2px)
     
 
   .details
+    margin-left: 1em
     +float    
     .name 
       +float

@@ -12,8 +12,12 @@ webserver.
 
 Currently the following gem dependencies are located in the .gems file. You can
 install them from scratch by using the command:
-
+    
     cat .gems | xargs sudo gem install
+    
+Alternatively, you can install them to the root/.gem directory by calling the command
+
+    script/unpack
   
 ## License
 MIT-licensed

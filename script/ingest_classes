@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+require 'open-uri'
+
+load File.dirname(__FILE__)+'/settings.rb'
+root = File.dirname(__FILE__)+"/.."
+
+load root+'/model.rb'
+
+def cur_semester(t=Time.now)
+  seas = (t.month > 10 || t.month <= 2) ? 'WN' : 'FA'
+  seas+(t.year+(seas == 'WN' ? 1 : 0)).to_s
+end
+    
+# 1) determine if our year is present
+sem = cur_semester()
+if Klass.first(:semester => sem).nil?
+  uri = "http://www.ro.umich.edu/timesched/pdf/#{sem}.csv"
+  
+  @semester_tag = Tag.find_or_create :tag => sem
+  
+  open(uri).read.split("\n")[1..-1].map do |l| 
+    line = l.split(',').map{|e| e.gsub(/"/,'')}
+    
+    cat_no = line[5].to_i
+    sec_no = line[6].to_i
+    
+    next if line[4] != "Electrical Engineering And Computer Science (EECS)" #subject
+    next if line[8] != "LEC" # only record lectures
+    next if sec_no == '' # don't double count classes meeting on separate days
+    # next if [990,995,699,599,499].include? cat_no #directed studies classes
+    
+    @tags = [@semester_tag]
+
+    class_tag_str = "eecs#{cat_no}"
+    sec_tag_str = class_tag_str+(sec_no > 1 ? 's'+sec_no.to_s : '')
+    
+    # class tag (eecs381)
+    @tags << Tag.find_or_create(:tag => class_tag_str)
+    
+    # section tag, if multiple sections: (eecs498s1)
+    @tags << Tag.find_or_create(:tag => sec_tag_str) if sec_no > 1
+    
+    # instructor tag (Pettie)
+    @tags << Tag.find_or_create(:tag => line[19]) if line[19].size > 0
+
+    @class = Klass.create({
+      :class_no => line[3],
+      :cat_no => cat_no,
+      :semester => sem, 
+      :instructor => line[19], 
+      :section => line[6].to_i,
+      :name => line[7],
+      :tags => @tags})
+  end
+end
