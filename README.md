@@ -6,8 +6,8 @@
 
 ## Installation
 
-This is a (Sinatra app)[http://www.sinatrarb.com/], which is incidentally a pretty
-cool little web framework. It might be helpful to install the (Thin)[http://code.macournoyer.com/thin/]
+This is a [Sinatra app](http://www.sinatrarb.com/), which is incidentally a pretty
+cool little web framework. It might be helpful to install the [Thin](http://code.macournoyer.com/thin/)
 webserver. 
 
 Currently the following gem dependencies are located in the .gems file. You can
